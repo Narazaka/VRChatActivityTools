@@ -75,7 +75,8 @@ namespace VRChatActivityLogger
                 using (var db = new DatabaseContext())
                 {
                     // 既にDBに登録されているログは登録対象から削除する
-                    var lastActivity = db.ActivityLogs.Find(db.ActivityLogs.Max(a => a.ID));
+                    var now = DateTime.Now;
+                    var lastActivity = db.ActivityLogs.Find(db.ActivityLogs.Where(a => a.Timestamp <= now).Max(a => a.ID));
                     if (lastActivity != null)
                     {
                         var idBackup = lastActivity.ID;
